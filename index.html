@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistani Cities Explorer</title>
+    <style>
+        /* Enhanced styling for a modern look */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #search-container, #dropdown-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"], select {
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type="text"]:focus, select:focus {
+            border-color: #007BFF;
+        }
+        #city-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pakistani Cities Explorer</h1>
+
+        <div id="search-container">
+            <input type="text" id="city-search" placeholder="Search for a city...">
+        </div>
+
+        <div id="dropdown-container">
+            <label for="alphabet">Filter by Alphabet: </label>
+            <select id="alphabet">
+                <option value="All">All</option>
+            </select>
+        </div>
+
+        <div id="city-container">
+            <!-- City cards will be generated dynamically -->
+        </div>
+    </div>
+
+    <script>
+        // Step 1: Pakistani City Data
+        const cities = [
+            "Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Multan", 
+            "Peshawar", "Quetta", "Sialkot", "Gujranwala", "Sargodha", "Bahawalpur", 
+            "Sukkur", "Hyderabad", "Abbottabad", "Mardan", "Swat", "Rahim Yar Khan", 
+            "Gujrat", "Sahiwal", "Jhelum", "Okara", "Chiniot", "Kasur", "Sheikhupura", 
+            "Mandi Bahauddin", "Mirpur", "Dera Ghazi Khan", "Muzaffargarh", "Nawabshah", 
+            "Larkana", "Jacobabad", "Kotli", "Khushab", "Attock", "Bhakkar", 
+            "Khanewal", "Pakpattan", "Hafizabad", "Narowal", "Vehari", "Mianwali", 
+            "Dera Ismail Khan", "Chakwal", "Kohat", "Bannu", "Khanpur", "Haripur", 
+            "Skardu", "Gilgit", "Jhang", "Charsadda", "Mansehra", "Shikarpur", 
+            "Badin", "Thatta", "Ghotki", "Tando Adam", "Tando Allahyar", "Mastung", 
+            "Khuzdar", "Zhob", "Hangu", "Nowshera", "Timergara", "Charsadda", 
+            "Chitral", "Dir", "Kalat", "Layyah", "Lodhran", "Chaman", "Turbat", 
+            "Hub", "Gwadar", "Moro", "Pano Aqil", "Tando Muhammad Khan", "Umerkot", 
+            "Kot Addu", "Sadiqabad", "Kabirwala", "Mailsi", "Jaranwala", "Toba Tek Singh", 
+            "Pir Mahal", "Kamalia", "Samundri", "Shorkot", "Daska", "Pasrur", 
+            "Sambrial", "Kharian", "Gujar Khan", "Murree", "Muzaffarabad", "Bagh", 
+            "Rawalakot", "Hattian Bala", "Kotli", "Kundian"
+        ];
+
+        // Step 2: Render Cities in Cards
+        function renderCities(cities) {
+            const cityContainer = document.getElementById('city-container');
+            cityContainer.innerHTML = '';
+            cities.forEach(city => {
+                const cityCard = document.createElement('div');
+                cityCard.className = 'card';
+                cityCard.textContent = city;
+                cityContainer.appendChild(cityCard);
+            });
+        }
+
+        // Step 3: Create Dropdown Menu for Alphabetical Filtering
+        function createDropdown() {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            const dropdown = document.getElementById('alphabet');
+            alphabet.forEach(letter => {
+                const option = document.createElement('option');
+                option.value = letter;
+                option.textContent = letter;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Step 4: Filter and Render Cities Based on Dropdown Selection
+        document.getElementById('alphabet').addEventListener('change', function () {
+            const selectedLetter = this.value;
+            const filteredCities = selectedLetter === 'All'
+                ? cities
+                : cities.filter(city => city.startsWith(selectedLetter));
+            renderCities(filteredCities);
+        });
+
+        // Step 5: Search and Render Cities Based on Search Input
+        document.getElementById('city-search').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const filteredCities = cities.filter(city => city.toLowerCase().includes(searchTerm));
+            renderCities(filteredCities);
+        });
+
+        // Initialize
+        createDropdown();
+        renderCities(cities);
+    </script>
+</body>
+</html>
+
